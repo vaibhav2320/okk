@@ -1,0 +1,41 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the 'titanic' dataset from the seaborn library
+df = sns.load_dataset("titanic")
+
+# Display the dataframe
+df
+
+# Get the column names of the dataframe
+cols = df.columns
+cols
+
+# Get information about the dataframe (e.g., column data types, non-null counts)
+df.info()
+
+# Generate descriptive statistics of the dataframe
+df.describe()
+
+# Check for missing values in the dataframe
+df.isnull().sum()
+
+# Import LabelEncoder from sklearn.preprocessing
+from sklearn.preprocessing import LabelEncoder
+
+# Create an instance of LabelEncoder
+labelencoder = LabelEncoder()
+
+# Encode the 'Sex' column with numerical values and store in another column
+df['Sex'] = labelencoder.fit_transform(df['Sex'])
+
+# Display the modified dataframe with the encoded 'Sex' column
+df
+
+# Create a box plot of 'age' grouped by 'sex'
+sns.boxplot(x=df["sex"], y=df["age"])
+
+# Create a box plot of 'age' grouped by 'sex' and colored by 'survived'
+sns.boxplot(x=df["sex"], y=df["age"], hue=df["survived"])

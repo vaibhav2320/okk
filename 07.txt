@@ -1,0 +1,32 @@
+import nltk
+nltk.download('punkt')
+
+# Importing the necessary modules
+from nltk.tokenize import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+import matplotlib.pyplot as plt
+
+# The text to be tokenized
+text = """Hello Mr. Smith, how are you doing today? The weather is
+great, and the city is awesome. The sky is pinkish-blue. You shouldn't
+eat cardboard"""
+
+# Tokenizing the text into sentences
+tokenized_text = sent_tokenize(text)
+print(tokenized_text)
+
+# Tokenizing the text into words
+tokenized_word = word_tokenize(text)
+print(tokenized_word)
+
+# Calculating the frequency distribution of words
+fdist = FreqDist(tokenized_word)
+print(fdist)  # FreqDist object showing the counts of each word
+
+# Printing the two most common words
+print(fdist.most_common(2))
+
+# Plotting the frequency distribution
+fdist.plot(30, cumulative=False)
+plt.show()

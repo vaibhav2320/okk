@@ -1,0 +1,53 @@
+import pandas as pd
+from sklearn import preprocessing
+
+# Read the 'iris.csv' dataset into a DataFrame
+df = pd.read_csv('iris.csv')
+
+# Display the first 10 rows of the DataFrame
+print(df.head(10))
+
+# Calculate the count of missing values in each column
+print(df.isna().sum())
+
+# Display the data types of the columns
+print(df.dtypes)
+
+# Convert 'PetalLengthCm' column to integer
+df['PetalLengthCm'] = df['PetalLengthCm'].astype("int")
+
+# Display the updated data types
+print(df.dtypes)
+
+# Perform min-max scaling on 'SepalLengthCm' column
+x = df[['SepalLengthCm']].values.astype(float)
+min_max_scaler = preprocessing.MinMaxScaler()
+x_scaled = min_max_scaler.fit_transform(x)
+df_normalized = pd.DataFrame(x_scaled)
+
+# Print the first 10 rows of the normalized DataFrame
+print(df_normalized.head(10))
+
+# Display the unique values in the 'Species' column
+print(df['Species'].unique())
+
+# Encode the 'Species' column using label encoding
+label_encoder = preprocessing.LabelEncoder()
+df['Species'] = label_encoder.fit_transform(df['Species'])
+print(df)
+
+# Display the unique encoded values in the 'Species' column
+print(df['Species'].unique())
+
+# Drop the 'Species' column and perform one-hot encoding on the 'Species' column
+features_df = df.drop(columns=['Species'])
+enc = preprocessing.OneHotEncoder()
+enc_df = pd.DataFrame(enc.fit_transform(df[['Species']]))
+df_encode = features_df.join(enc_df)
+df_encode.rename(columns={0: 'Iris-Setosa', 1: 'Iris-Versicolor', 2: 'Iris-Virginica'}, inplace=True)
+print(df_encode.tail(40))
+
+# Perform one-hot encoding on the entire DataFrame
+one_hot_df = pd.get_dummies(df, prefix="Species", columns=['Species'], drop_first=False)
+print(one_hot_df.head(20))
+print(one_hot_df.tail(20))

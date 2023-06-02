@@ -1,0 +1,74 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+%matplotlib inline
+from sklearn.datasets import fetch_openml
+
+# Load the "house_prices" dataset
+housing = fetch_openml(name="house_prices", as_frame=True)
+
+# Create a DataFrame using the dataset's data and column names
+data = pd.DataFrame(housing.data, columns=housing.feature_names)
+
+# Add the target variable 'Price' to the DataFrame
+data['Price'] = housing.target
+
+# Perform descriptive statistics on the data
+data.describe()
+
+# Visualize the distribution of 'Price' using a histogram
+sns.displot(data['Price'], bins=30)
+plt.show()
+
+# Create a correlation matrix and display it as a heatmap
+correlation_matrix = data.corr().round(2)
+sns.heatmap(data=correlation_matrix, annot=True)
+
+# Create scatter plots of 'YearBuilt' and 'GarageArea' against 'Price'
+plt.figure(figsize=(20, 5))
+features = ['YearBuilt', 'GarageArea']
+target = data['Price']
+for i, col in enumerate(features):
+    plt.subplot(1, len(features), i+1)
+    x = data[col]
+    y = target
+    plt.scatter(x, y, marker='o')
+    plt.title(col)
+    plt.xlabel(col)
+    plt.ylabel('Price')
+
+import numpy as np
+
+# Prepare the feature matrix 'x' and target vector 'y'
+x = pd.DataFrame(np.c_[data['YearBuilt'], data['GarageArea']], columns=['YearBuilt', 'GarageArea'])
+y = data['Price']
+
+from sklearn.model_selection import train_test_split
+
+# Split the data into training and testing sets
+X_train, X_test, Y_train, Y_test = train_test_split(x, y, test_size=0.2, random_state=5)
+
+from sklearn.linear_model import LinearRegression
+
+# Create an instance of the LinearRegression model
+model = LinearRegression()
+
+# Fit the model to the training data
+model.fit(X_train, Y_train)
+
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Make predictions on the testing data
+y_pred = model.predict(X_test)
+
+# Calculate the root mean squared error (RMSE) and R-squared (R2) score
+rmse = np.sqrt(mean_squared_error(Y_test, y_pred))
+r2 = r2_score(Y_test, y_pred)
+
+# Print the model's performance metrics
+print('Model Performance', f'RMSE is {rmse}', f'R2 score is {r2}', sep='\n')
+
+# Make a prediction on a sample data point [1990, 9000]
+sample_data = [[1990, 9000]]
+price = model.predict(sample_data)
+print(price[0])

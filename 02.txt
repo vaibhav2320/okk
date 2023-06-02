@@ -1,0 +1,61 @@
+import pandas as pd
+from sklearn import datasets
+
+# Read the 'PR3.csv' dataset into a DataFrame
+df = pd.read_csv('PR3.csv')
+
+# Display the first 30 rows of the DataFrame
+print(df.head(30), sep="\n")
+
+# Display the unique values in the 'AGE_GROUP' column
+print(df.AGE_GROUP.unique())
+
+# Perform count aggregation by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).count())
+
+# Perform minimum aggregation by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).min())
+
+# Perform maximum aggregation by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).max())
+
+# Perform mean aggregation by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).mean())
+
+# Perform standard deviation aggregation by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).std())
+
+# Perform descriptive statistics by 'AGE_GROUP'
+print(df.groupby(df.AGE_GROUP).describe())
+
+# Load the Iris dataset from sklearn.datasets
+data = datasets.load_iris()
+df = pd.DataFrame(data.data, columns=data.feature_names)
+df['species'] = pd.Series(data.target)
+
+# Display the first few rows of the Iris DataFrame
+print(df.head())
+
+# Display the unique values in the 'species' column
+print(df.species.unique())
+
+# Group the Iris DataFrame by 'species'
+print(df.groupby(df.species))
+
+# Perform maximum aggregation by 'species'
+print(df.groupby(df.species).max())
+
+# Perform minimum aggregation by 'species'
+print(df.groupby(df.species).min())
+
+# Perform mean aggregation by 'species'
+print(df.groupby(df.species).mean())
+
+# Perform standard deviation aggregation by 'species'
+print(df.groupby(df.species).std())
+
+# Perform descriptive statistics for 'sepal length (cm)' by 'species'
+print(df.groupby(df.species)["sepal length (cm)"].describe())
+
+# Perform descriptive statistics for 'sepal width (cm)' by 'species'
+print(df.groupby(df.species)["sepal width (cm)"].describe())

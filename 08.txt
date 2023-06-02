@@ -1,0 +1,25 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the 'titanic' dataset from the seaborn library
+dataset = sns.load_dataset('titanic')
+
+# Display the first few rows of the dataset
+dataset.head()
+
+# Plot a histogram of the 'fare' column using displot
+sns.displot(dataset['fare'])
+
+# Plot a histogram of the 'fare' column with specified options
+sns.displot(dataset['fare'], kde=False, bins=10)
+
+# Create a joint plot of 'age' and 'fare' columns
+sns.jointplot(x='age', y='fare', data=dataset)
+
+# Create a joint plot of 'age' and 'fare' columns with hexagonal bins
+sns.jointplot(x='age', y='fare', data=dataset, kind='hex')
+
+# Create a pair plot of the dataset
+sns.pairplot(dataset)
